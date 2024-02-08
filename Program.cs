@@ -15,7 +15,7 @@ public class User
     public List<string> Collectives { get; set; }
     public string profileLink { get; set; }
     public string avatarLink { get; set; }
-    //public int answerCount { get; set; }
+
 }
 
 
@@ -23,43 +23,41 @@ public class Program
 {
 
     private static readonly HttpClient _httpClient = new HttpClient();
+
+    // private const string key = "*RnG73M5XZloWeZ*7*Fh7A((";
     private const string ApiUrl = "https://api.stackexchange.com/2.3";
-    private const string UsersEndPoint = "/users?order=desc&sort=reputation&site=stackoverflow&page=1&pagesize=10";
+    private const string UsersEndPoint = $"/users?order=desc&sort=reputation&site=stackoverflow&page=4&pagesize=99";
 
 
     public static async Task Main()
     {
         try
         {
+            HttpResponseMessage response = await _httpClient.GetAsync(ApiUrl + UsersEndPoint);
 
+            //string jsonString = File.ReadAllText("fakeApi/users.json");
 
-            // HttpResponseMessage response = await _httpClient.GetAsync(ApiUrl + UsersEndPoint);
-
-            string jsonString = File.ReadAllText("fakeApi/users.json");
-
-
-
-            dynamic users;
-
-            if (1 == 0)
+            //dynamic users;
+            // if (1 == 0)
+            // {
+            if (response.IsSuccessStatusCode)
             {
-                // if (response.IsSuccessStatusCode)
-                // {
-                //     string responseBody = await DecompressResponse(response);
-                //     var users = JsonConvert.DeserializeObject<dynamic>(responseBody).items;
-                // }
-                // else
-                // {
-                //     Console.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
-                // }
+                string responseBody = await DecompressResponse(response);
+                var users = JsonConvert.DeserializeObject<dynamic>(responseBody).items;
+
+                var filteredUsers = FilterUsers(users);
+                await ProcessUsers(filteredUsers);
             }
             else
             {
-                users = JsonConvert.DeserializeObject<dynamic>(jsonString).items;
+                Console.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
             }
+            // }
+            // else
+            // {
+            //     users = JsonConvert.DeserializeObject<dynamic>(jsonString).items;
+            // }
 
-            var filteredUsers = FilterUsers(users);
-            await ProcessUsers(filteredUsers);
 
         }
         catch (Exception ex)
@@ -84,7 +82,7 @@ public class Program
         var filteredUsers = new List<User>();
         foreach (var user in users)
         {
-            if (user.reputation > 223)
+            if (user.reputation > 223 && user.location == "Transylvania, Romania" || user.location == "Moldova")
             {
                 var newUser = new User
                 {
@@ -95,8 +93,6 @@ public class Program
                     profileLink = user.link,
                     avatarLink = user.profile_image,
                     Collectives = new List<string>(),
-                    //answerCount= AnswerCount(user.user_id)
-
 
                 };
 
@@ -128,28 +124,6 @@ public class Program
         }
         return filteredUsers;
     }
-    /*
-        private static Task<int> AnswerCount(int userId)
-        {
-            int count = 0;
-
-            string answersEndPoint = $"/{userId}/answers?order=desc&sort=activity&site=stackoverflow";
-            HttpResponseMessage UserResponse = await _httpClient.GetAsync(ApiUrl + answersEndPoint);
-
-            if (userResponse.IsSuccessStatusCode)
-        {
-            string responseBody = await DecompressResponse(userResponse);
-            var answers = JsonConvert.DeserializeObject<dynamic>(responseBody).items;
-
-            count = answers.Count;
-        }
-                return count;
-            }
-
-        }
-
-    */
-
 
     private static async Task<int> AnswerCount(int userId)
     {
@@ -202,37 +176,20 @@ public class Program
     {
         foreach (var user in users)
         {
-            Console.WriteLine($"UserID: {user.UserId}");
-            Console.WriteLine($"DisplayName: {user.DisplayName}");
-            Console.WriteLine($"Reputation: {user.Reputation}");
+            Console.WriteLine($"User name: {user.DisplayName}");
             Console.WriteLine($"Location: {user.Location}");
-            Console.WriteLine($"Profile: {user.profileLink}");
-            Console.WriteLine($"Avatar: {user.avatarLink}");
+            Console.WriteLine($"Reputation: {user.Reputation}");
             Console.WriteLine($"AnswerCount: {await AnswerCount(user.UserId)}");
             Console.WriteLine($"QuestionCount: {await QuestionCount(user.UserId)}");
-
             foreach (var tag in user.Collectives)
             {
                 Console.WriteLine($"TAG: {tag}");
             }
+            Console.WriteLine($"Profile: {user.profileLink}");
+            Console.WriteLine($"Avatar: {user.avatarLink}");
 
             Console.WriteLine();
         }
     }
 }
-/*
-                string answersEndPoint = $"/{user.user_id}/answers?order=desc&sort=activity&site=stackoverflow";
-                HttpResponseMessage UserResponse = await _httpClient.GetAsync(ApiUrl + answersEndPoint);
 
-                if (UserResponse.IsSuccessStatusCode)
-                {
-                    string responseBody = await DecompressResponse(UserResponse);
-                    var answer = JsonConvert.DeserializeObject<dynamic>(responseBody).items;
-
-                    for (int i = 0; i < answer.Count; i++)
-                    {
-                        answerCount = answerCount++;
-                    }
-
-                }
-*/

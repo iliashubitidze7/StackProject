@@ -1,25 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\i.shubitidze\\OneDrive - Anadolu Efes\\Desktop\\testproject\\testAPI\\testAPI.csproj": {}
+    "C:\\Users\\jo\\OneDrive - Anadolu Efes\\Desktop\\testproject\\testAPI\\testAPI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\i.shubitidze\\OneDrive - Anadolu Efes\\Desktop\\testproject\\testAPI\\testAPI.csproj": {
+    "C:\\Users\\jo\\OneDrive - Anadolu Efes\\Desktop\\testproject\\testAPI\\testAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\i.shubitidze\\OneDrive - Anadolu Efes\\Desktop\\testproject\\testAPI\\testAPI.csproj",
+        "projectUniqueName": "C:\\Users\\jo\\OneDrive - Anadolu Efes\\Desktop\\testproject\\testAPI\\testAPI.csproj",
         "projectName": "testAPI",
-        "projectPath": "C:\\Users\\i.shubitidze\\OneDrive - Anadolu Efes\\Desktop\\testproject\\testAPI\\testAPI.csproj",
-        "packagesPath": "C:\\Users\\i.shubitidze\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\i.shubitidze\\OneDrive - Anadolu Efes\\Desktop\\testproject\\testAPI\\obj\\",
+        "projectPath": "C:\\Users\\jo\\OneDrive - Anadolu Efes\\Desktop\\testproject\\testAPI\\testAPI.csproj",
+        "packagesPath": "C:\\Users\\jo\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\jo\\OneDrive - Anadolu Efes\\Desktop\\testproject\\testAPI\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\i.shubitidze\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\jo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
