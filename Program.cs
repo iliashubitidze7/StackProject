@@ -35,11 +35,6 @@ public class Program
         {
             HttpResponseMessage response = await _httpClient.GetAsync(ApiUrl + UsersEndPoint);
 
-            //string jsonString = File.ReadAllText("fakeApi/users.json");
-
-            //dynamic users;
-            // if (1 == 0)
-            // {
             if (response.IsSuccessStatusCode)
             {
                 string responseBody = await DecompressResponse(response);
@@ -52,19 +47,22 @@ public class Program
             {
                 Console.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
             }
+         }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Exception: {ex.Message}");
+        }   
+            //string jsonString = File.ReadAllText("fakeApi/users.json");
+
+            //dynamic users;
+            // if (1 == 0)
+            // {
             // }
             // else
             // {
             //     users = JsonConvert.DeserializeObject<dynamic>(jsonString).items;
             // }
-
-
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Exception: {ex.Message}");
-        }
-    }
+}
 
     private static async Task<string> DecompressResponse(HttpResponseMessage response)
     {
@@ -75,6 +73,7 @@ public class Program
         }
     }
 
+    //filter users
     private static List<User> FilterUsers(dynamic users)
     {
 
@@ -82,6 +81,7 @@ public class Program
         var filteredUsers = new List<User>();
         foreach (var user in users)
         {
+            //check end filter user reputation and user location
             if (user.reputation > 223 && user.location == "Transylvania, Romania" || user.location == "Moldova")
             {
                 var newUser = new User
@@ -125,6 +125,7 @@ public class Program
         return filteredUsers;
     }
 
+    // function returns AnswerCount
     private static async Task<int> AnswerCount(int userId)
     {
         int count = 0;
@@ -147,6 +148,7 @@ public class Program
         return count;
     }
 
+    // function returns QuestionCount
     private static async Task<int> QuestionCount(int userId)
     {
         int count = 0;
@@ -170,7 +172,7 @@ public class Program
         return count;
     }
 
-
+    // printing fitered users list
 
     private static async Task ProcessUsers(List<User> users)
     {
@@ -179,8 +181,8 @@ public class Program
             Console.WriteLine($"User name: {user.DisplayName}");
             Console.WriteLine($"Location: {user.Location}");
             Console.WriteLine($"Reputation: {user.Reputation}");
-            Console.WriteLine($"AnswerCount: {await AnswerCount(user.UserId)}");
-            Console.WriteLine($"QuestionCount: {await QuestionCount(user.UserId)}");
+            Console.WriteLine($"Answer count: {await AnswerCount(user.UserId)}");
+            Console.WriteLine($"Question count: {await QuestionCount(user.UserId)}");
             foreach (var tag in user.Collectives)
             {
                 Console.WriteLine($"TAG: {tag}");
